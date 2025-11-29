@@ -1,0 +1,57 @@
+#include <Servo.h>
+
+// Maak 4 servo objecten
+Servo servo1;
+Servo servo2;
+Servo servo3;
+Servo servo4;
+
+// Servo pinnen
+const int servoPin1 = 8;
+const int servoPin2 = 9;
+const int servoPin3 = 6;
+const int servoPin4 = 7; 
+
+// Joystick pinnen
+const int joyPin1 = A1; // X-as joystick 1
+const int joyPin2 = A2; // Y-as joystick 1
+const int joyPin3 = A4; // X-as joystick 2
+const int joyPin4 = A5; // Y-as joystick 2
+
+void setup() {
+  Serial.begin(9600);
+
+  // Servo’s koppelen aan pinnen
+  servo1.attach(servoPin1);
+  servo2.attach(servoPin2);
+  servo3.attach(servoPin3);
+  servo4.attach(servoPin4);
+}
+
+void loop() {
+  // Lees joystick waarden
+  int joyVal1 = analogRead(joyPin1);
+  int joyVal2 = analogRead(joyPin2);
+  int joyVal3 = analogRead(joyPin3);
+  int joyVal4 = analogRead(joyPin4);
+
+  // Zet joystick waarden om naar servo hoeken (0–180 graden)
+  int angle1 = map(joyVal1, 0, 1023, 0, 180);
+  int angle2 = map(joyVal2, 0, 1023, 0, 180);
+  int angle3 = map(joyVal3, 0, 1023, 0, 180);
+  int angle4 = map(joyVal4, 0, 1023, 0, 180);
+
+  // Stuur servo’s aan
+  servo1.write(angle1);
+  servo2.write(angle2);
+  servo3.write(angle3);
+  servo4.write(angle4);
+
+  // Debug output naar Serial Monitor
+  Serial.print("S1: "); Serial.print(angle1);
+  Serial.print(" | S2: "); Serial.print(angle2);
+  Serial.print(" | S3: "); Serial.print(angle3);
+  Serial.print(" | S4: "); Serial.println(angle4);
+
+  delay(15); // kleine pauze voor stabiliteit
+}
